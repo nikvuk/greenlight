@@ -31,6 +31,7 @@ func main() {
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
+	// Declare an instance of the application struct
 	app := &application{
 		config: cfg,
 		logger: logger,
