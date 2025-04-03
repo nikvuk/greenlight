@@ -10,6 +10,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/nikvuk/greenlight/internal/data"
+
 	_ "github.com/lib/pq"
 )
 
@@ -29,6 +31,7 @@ type config struct {
 type application struct {
 	config config
 	logger *log.Logger
+	models data.Models
 }
 
 func main() {
@@ -54,12 +57,13 @@ func main() {
 
 	defer db.Close()
 
-	logger.Print("database connection pool established")
+	logger.Printf("database connection pool established")
 
 	// Declare an instance of the application struct
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	srv := &http.Server{

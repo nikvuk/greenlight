@@ -1,6 +1,7 @@
 package data
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/nikvuk/greenlight/internal/validator"
@@ -14,6 +15,10 @@ type Movie struct {
 	Runtime   Runtime   `json:"runtime,omitempty"` // movie runtime (minutes)
 	Genres    []string  `json:"genres,omitempty"`  // genres for the movie (romance, comedy, etc)
 	Version   int32     `json:"version"`           // version number, incremented every time movie information updated
+}
+
+type MovieModel struct {
+	DB *sql.DB
 }
 
 func ValidateMovie(v *validator.Validator, movie *Movie) {
@@ -32,4 +37,38 @@ func ValidateMovie(v *validator.Validator, movie *Movie) {
 	v.Check(len(movie.Genres) <= 5, "genres", "must not contain more than 5 genres")
 	// use validator inline to check all values in the movie.Genre slice are unique
 	v.Check(validator.Unique(movie.Genres), "genres", "must not contain duplicate values")
+}
+
+func (m MovieModel) Insert(movie *Movie) error {
+	return nil
+}
+
+func (m MovieModel) Get(id int64) (*Movie, error) {
+	return nil, nil
+}
+
+func (m MovieModel) Update(movie *Movie) error {
+	return nil
+}
+
+func (m MovieModel) Delete(id int64) error {
+	return nil
+}
+
+type MockMovieModel struct{}
+
+func (m MockMovieModel) Insert(movie *Movie) error {
+	return nil
+}
+
+func (m MockMovieModel) Get(id int64) (*Movie, error) {
+	return nil, nil
+}
+
+func (m MockMovieModel) Update(movie *Movie) error {
+	return nil
+}
+
+func (m MockMovieModel) Delete(id int64) error {
+	return nil
 }
